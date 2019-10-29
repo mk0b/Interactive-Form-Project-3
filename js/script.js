@@ -17,12 +17,22 @@ window.onload = () => {
     $('#name').focus();
 }
 
-//added this code to the html file: <input type="text" id="other-title" name="user_other_jobtitle" placeholder="Your Job Role"></input>
-
+//Initially Hidden Items
 $('#other-title').hide();
+$('#colors-js-puns').hide();
 
+//added this code to the html file: <input type="text" id="other-title" name="user_other_jobtitle" placeholder="Your Job Role"></input>
 
 
 //Event Handlers
-
+$('#title').change( (event) => {
+    const otherOption = $('#title').find(':selected').text();
+    //TODO: Remove test when done.
+    console.log(otherOption);
+    if (otherOption === 'Other') {
+        $('#other-title').show();
+    } else {
+        console.log('Something was selected!');
+    }
+});
 
