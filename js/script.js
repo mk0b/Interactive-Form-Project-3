@@ -17,22 +17,32 @@ window.onload = () => {
     $('#name').focus();
 }
 
+//declaring some global variables
+//choosing to store these to make the code more easy to read.
+const $titleSection = $('#title');
+const $otherJobSection = $('#other-title');
+const $colorOptions = $('#colors-js-puns');
+
 //Initially Hidden Items
-$('#other-title').hide();
-$('#colors-js-puns').hide();
+$otherJobSection.hide();
+$colorOptions.hide();
 
 //added this code to the html file: <input type="text" id="other-title" name="user_other_jobtitle" placeholder="Your Job Role"></input>
 
 
-//Event Handlers
-$('#title').change( (event) => {
-    const otherOption = $('#title').find(':selected').text();
+//Event Handlers//
+
+//This event hadler shows the Other Job Role text field when the "other" option is selected.
+$titleSection.change( () => {
+    const option = $titleSection.find(':selected').text();
     //TODO: Remove test when done.
-    console.log(otherOption);
-    if (otherOption === 'Other') {
+    console.log(option);
+    if (option === 'Other') {
         $('#other-title').show();
     } else {
+        //TODO: Remove console and else statement when done.
         console.log('Something was selected!');
     }
 });
 
+//disable color options like in the warmp up with the attr() method.
