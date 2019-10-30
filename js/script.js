@@ -64,6 +64,7 @@ $tShirtDesignDropdown.change( () => {
     
     if (option === 'Theme - JS Puns') {
         //trying to empty and reload
+        //doesn't seem to work either.trigger('chosen:updated');
         // basically gives an error saying it's not allowed $colorOptions.empty().load(location.href + '#colors-js-puns > *');
         //disable ones that should not be in the list for this theme
         $colorTomato.attr('hidden', true).attr('disabled', true);
