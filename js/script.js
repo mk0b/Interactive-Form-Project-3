@@ -101,8 +101,12 @@ $activitiesSection.change( (event) => {
     //TODO: Remove test after.
     console.log($clickedCost);
     let totalCost;
-    //const $tuesdayAM = $('input [type="checkbox"] [data-day-and-time="Tuesday-T09:00:00-T12:00:00]').val();
-    //console.log($tuesdayAM); 
+
+    //use the checkboxes to loop through each check box and if it matches clickedtime grey it out.
+    const checkboxesActivities = $('.activities input');
+    //TODO: Remove test after.
+    console.log(checkboxesActivities);
+
     //store time frame's to match against
     //how can I make it simpler. if any tuesday at same time is clicked disable any other tuesday?
 
