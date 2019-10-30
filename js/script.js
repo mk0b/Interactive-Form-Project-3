@@ -34,7 +34,7 @@ $colorOptions.hide();
 
 //Event Handlers//
 
-//This event hadler shows the Other Job Role text field when the "other" option is selected.
+//This event handler shows the Other Job Role text field when the "other" option is selected.
 $jobRoleSection.change( () => {
     const option = $jobRoleSection.find(':selected').text();
     //TODO: Remove test when done.
@@ -47,17 +47,35 @@ $jobRoleSection.change( () => {
     }
 });
 
-
-//disable color options like in the warmp up with the attr() method.
-
+//This event handler finds the option that is being clicked in the list and then dictates what colors are shown in the color dropdown.
+// TODO: decide to leave in or take out. added <option value="selectacolor">Select a Color</option> may take it out when I fix the bug
+//TODO: fix the bug when you select one theme and then try to change your mind and select another the list does not show up correctly.
 $tShirtDesignDropdown.change( () => {
     const option = $tShirtDesignDropdown.find(':selected').text();
     //TODO: Remove when done.
     console.log(option);
-
+    //declaring some needed variables.
+    const $colorTomato = $('#color option[value="tomato"]');
+    const $colorSteelBlue = $('#color option[value="steelblue"]');
+    const $colorDimGrey = $('#color option[value="dimgrey"]');
+    const $colorCornflowerBlue = $('#color option[value="cornflowerblue"]');
+    const $colorDarkSlateGrey = $('#color option[value="darkslategrey"]');
+    const $colorGold = $('#color option[value="gold"]');
+    
     if (option === 'Theme - JS Puns') {
+        //trying to empty and reload
+        // basically gives an error saying it's not allowed $colorOptions.empty().load(location.href + '#colors-js-puns > *');
         //disable ones that should not be in the list for this theme
+        $colorTomato.attr('hidden', true).attr('disabled', true);
+        $colorSteelBlue.attr('hidden', true).attr('disabled', true);
+        $colorDimGrey.attr('hidden', true).attr('disabled', true);
         $colorOptions.show()
+    } else if (option === 'Theme - I ♥ JS') {
+        //TODO: Remove test.
+        console.log('Test');
+        $colorCornflowerBlue.attr('hidden', true).attr('disabled', true);
+        $colorDarkSlateGrey.attr('hidden', true).attr('disabled', true);
+        $colorGold.attr('hidden', true).attr('disabled', true);
+        $colorOptions.show();
     }
-
 });
