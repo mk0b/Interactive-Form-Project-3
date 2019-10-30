@@ -19,6 +19,7 @@ const $otherJobSection = $('#other-title');
 const $colorOptions = $('#colors-js-puns');
 const $nameField = $('#name');
 const $tShirtDesignDropdown = $('#design');
+const $activitiesSection = $('.activities');
 
 //This sets the curser to the first input on page load. Chose to use window.onload for better browser compatability.
 window.onload = () => {
@@ -51,10 +52,11 @@ $jobRoleSection.change( () => {
 // TODO: decide to leave in or take out. added <option value="selectacolor">Select a Color</option> may take it out when I fix the bug
 //TODO: fix the bug when you select one theme and then try to change your mind and select another the list does not show up correctly.
 $tShirtDesignDropdown.change( () => {
+    //Grabbing the selected option and storing it to use in the conditional statements.
     const option = $tShirtDesignDropdown.find(':selected').text();
     //TODO: Remove when done.
     console.log(option);
-    //declaring some needed variables.
+    //Declaring some color variables.
     const $colorTomato = $('#color option[value="tomato"]');
     const $colorSteelBlue = $('#color option[value="steelblue"]');
     const $colorDimGrey = $('#color option[value="dimgrey"]');
@@ -80,4 +82,27 @@ $tShirtDesignDropdown.change( () => {
         $colorGold.attr('hidden', true).attr('disabled', true);
         $colorOptions.show();
     }
+});
+
+//This event handler doesn't allow events of the same day/time to be selected. 
+//Disable the same events and time after one is selected so that the user cannot
+//double book themselves.
+//As a user selects make a running total of the dollar amounts and then display it 
+//below the list of checkboxes.
+
+$activitiesSection.change( (event) => {
+    const clicked = event.target;
+    //TODO: Remove test after.
+    console.log(clicked);
+    let totalCost;
+    const $clickedTime = $(clicked).data('datadayandtime');
+    console.log($clickedTime);
+    //const $tuesdayAM = $('input [type="checkbox"] [data-day-and-time="Tuesday-T09:00:00-T12:00:00]').val();
+    //console.log($tuesdayAM); 
+    //store time frame's to match against
+    //how can I make it simpler. if any tuesday at same time is clicked disable any other tuesday?
+
+    //if statement for times
+
+    //separate if statement for money?
 });
