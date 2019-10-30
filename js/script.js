@@ -94,9 +94,13 @@ $activitiesSection.change( (event) => {
     const clicked = event.target;
     //TODO: Remove test after.
     console.log(clicked);
-    let totalCost;
-    const $clickedTime = $(clicked).data('datadayandtime');
+    const $clickedTime = $(clicked).attr("data-day-and-time");
+    //TODO: Remove test after.
     console.log($clickedTime);
+    const $clickedCost = $(clicked).attr("data-cost");
+    //TODO: Remove test after.
+    console.log($clickedCost);
+    let totalCost;
     //const $tuesdayAM = $('input [type="checkbox"] [data-day-and-time="Tuesday-T09:00:00-T12:00:00]').val();
     //console.log($tuesdayAM); 
     //store time frame's to match against
