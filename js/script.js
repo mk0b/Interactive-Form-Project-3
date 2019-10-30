@@ -113,5 +113,5 @@ $activitiesSection.change( (event) => {
 
     // if what is checked is a specific date and time loop through and if date and time match others disable them.
 
-    //separate if statement for money? if :checked add up cost and show it.
+    //separate if statement for money? if :checked add up cost and show it. Maybe just a for loop of :checked take the cost and get the total then display?
 });
