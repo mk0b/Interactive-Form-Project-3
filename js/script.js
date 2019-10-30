@@ -91,6 +91,7 @@ $tShirtDesignDropdown.change( () => {
 //below the list of checkboxes.
 
 $activitiesSection.change( (event) => {
+    //When clicked store what was clicked -- get data day and time -- get cost
     const clicked = event.target;
     //TODO: Remove test after.
     console.log(clicked);
@@ -102,7 +103,7 @@ $activitiesSection.change( (event) => {
     console.log($clickedCost);
     let totalCost;
 
-    //use the checkboxes to loop through each check box and if it matches clickedtime grey it out.
+    //Use the checkboxes to loop through each check box and if it matches clickedtime grey it out.
     const checkboxesActivities = $('.activities input');
     //TODO: Remove test after.
     console.log(checkboxesActivities);
@@ -110,7 +111,7 @@ $activitiesSection.change( (event) => {
     //store time frame's to match against
     //how can I make it simpler. if any tuesday at same time is clicked disable any other tuesday?
 
-    //if statement for times
+    // if what is checked is a specific date and time loop through and if date and time match others disable them.
 
-    //separate if statement for money?
+    //separate if statement for money? if :checked add up cost and show it.
 });
