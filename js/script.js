@@ -66,7 +66,7 @@ $tShirtDesignDropdown.change( () => {
         //trying to empty and reload
         //doesn't seem to work either.trigger('chosen:updated');
         // basically gives an error saying it's not allowed $colorOptions.empty().load(location.href + '#colors-js-puns > *');
-        //disable ones that should not be in the list for this theme
+        //Disable colors that should not be in the list for this theme.
         $colorTomato.attr('hidden', true).attr('disabled', true);
         $colorSteelBlue.attr('hidden', true).attr('disabled', true);
         $colorDimGrey.attr('hidden', true).attr('disabled', true);
@@ -74,6 +74,7 @@ $tShirtDesignDropdown.change( () => {
     } else if (option === 'Theme - I ♥ JS') {
         //TODO: Remove test.
         console.log('Test');
+        //Disable colors that should not be in the list for this theme.
         $colorCornflowerBlue.attr('hidden', true).attr('disabled', true);
         $colorDarkSlateGrey.attr('hidden', true).attr('disabled', true);
         $colorGold.attr('hidden', true).attr('disabled', true);
