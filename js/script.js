@@ -65,7 +65,7 @@ $tShirtDesignDropdown.change( () => {
     const $colorGold = $('#color option[value="gold"]');
     
     if (option === 'Theme - JS Puns') {
-        //trying to empty and reload
+        //trying to empty and reload or refresh the design dropdown
         //doesn't seem to work either.trigger('chosen:updated');
         // basically gives an error saying it's not allowed $colorOptions.empty().load(location.href + '#colors-js-puns > *');
         //Disable colors that should not be in the list for this theme.
