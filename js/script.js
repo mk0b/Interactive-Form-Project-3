@@ -108,10 +108,20 @@ $activitiesSection.change( (event) => {
     //TODO: Remove test after.
     console.log(checkboxesActivities);
 
-    //store time frame's to match against
-    //how can I make it simpler. if any tuesday at same time is clicked disable any other tuesday?
-
     // if what is checked is a specific date and time loop through and if date and time match others disable them.
-
+    for (let i = 0; i < checkboxesActivities; i++) {
+        const currentCheckbox = checkboxesActivities[i];
+        //TODO: Remove test after.
+        console.log(currentCheckbox);
+        if (currentCheckbox.attr("data-day-and-time") === $clickedTime && currentCheckbox !== clicked) {
+            if (currentCheckbox.checked) {
+                //if clicked was checked set the matching activities elements to disabled true 
+                currentCheckbox.attr('disabled', true);
+            } else {
+                //set the matching disabled property to disabled false
+                currentCheckbox.attr('disabled', false);
+            }
+        }
+    }
     //separate if statement for money? if :checked add up cost and show it. Maybe just a for loop of :checked take the cost and get the total then display?
 });
