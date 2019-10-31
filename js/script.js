@@ -124,12 +124,12 @@ $activitiesSection.change( (event) => {
         //TODO: Remove test after.
         //console.log(currentCheckbox);
         if (currentCheckboxDayTime === $clickedTime && currentCheckbox !== clicked) {
-            if (currentCheckbox.checked) {
+            if (clicked.checked) {
                 //if clicked was checked set the matching activities elements to disabled true 
-                //$(currentCheckbox).attr('disabled', true);
+                $(currentCheckbox).attr('disabled', true);
             } else {
                 //set the matching disabled property to disabled false
-                //$(currentCheckbox).attr('disabled', false);
+                $(currentCheckbox).attr('disabled', false);
             }
         }
     }
