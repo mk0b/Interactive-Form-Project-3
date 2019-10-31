@@ -114,6 +114,7 @@ $activitiesSection.change( (event) => {
     } else {
         totalCost -= $clickedCost;
     }
+    //What if I put this and the variable outside of this event listener and append it after the event listener?
     $('.activities').append('Total Cost: $' + totalCost);
 
     //TODO: Need to get the if statement in the for loop working correctly.
