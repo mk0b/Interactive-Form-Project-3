@@ -11,6 +11,7 @@ as a TeamTreehouse Full Stack JavaScript Talent Path student.*/
 //TODO: Refactor Code
 //TODO: css/reset.css or css/normalize.css - Google and add to project (Opt)
 //TODO: Add placeholder text to make more usable?
+//TODO: Play with CSS
 
 //Declaring some global variables
 //Choosing to store these to make the code more readable.
@@ -102,6 +103,8 @@ $tShirtDesignDropdown.change( () => {
 //As a user selects make a running total of the dollar amounts and then display it 
 //below the list of checkboxes.
 
+//TODO: Try to fix class/options for line through when disabled. Seems to work but nothing is showing in the browser.
+
 $activitiesSection.change( (event) => {
     //When clicked store what was clicked -- get data day and time -- get cost
     const clicked = event.target;
@@ -139,11 +142,11 @@ $activitiesSection.change( (event) => {
         if (currentCheckboxDayTime === $clickedTime && currentCheckbox !== clicked) {
             if (clicked.checked) {
                 //if clicked was checked set the matching activities elements to disabled true 
-                $(currentCheckbox).prop('disabled', true);
+                $(currentCheckbox).prop('disabled', true).addClass('.disabled-activities');
                 console.log(currentCheckbox);
             } else {
                 //set the matching disabled property to disabled false
-                $(currentCheckbox).prop('disabled', false);
+                $(currentCheckbox).prop('disabled', false).removeClass('.disabled-activities');
             }
         }
     }

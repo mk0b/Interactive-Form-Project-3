@@ -163,6 +163,10 @@ option {
   clear: both;
 }
 
+.disabled-activities {
+	text-decoration-line: line-through;	
+}
+
 /* ================================= 
   Media Queries
 ==================================== */
