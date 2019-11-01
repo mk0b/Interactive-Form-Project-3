@@ -20,6 +20,10 @@ const $colorOptions = $('#colors-js-puns');
 const $nameField = $('#name');
 const $tShirtDesignDropdown = $('#design');
 const $activitiesSection = $('.activities');
+const $paymentDropDown = $('#payment');
+const $creditCardSection = $('#credit-card');
+const $paypalSection = $('#paypal');
+const $bitcoinSection = $('#bitcoin');
 
 //This sets the curser to the first input on page load. Chose to use window.onload for better browser compatability.
 window.onload = () => {
@@ -29,6 +33,14 @@ window.onload = () => {
 //Initially Hidden Items
 $otherJobSection.hide();
 $colorOptions.hide();
+$paypalSection.hide();
+$bitcoinSection.hide();
+
+//Setting CC to default selection in payment info dropdown.
+$('#payment option[value="Credit Card"]').prop('selected', true);
+
+//Disabling "Select payment Method" in the payment info dropdown so they can't choose it from the list.
+$('#payment option[value="select method"]').prop('disabled', true);
 
 //added this code to the html file: <input type="text" id="other-title" name="user_other_jobtitle" placeholder="Your Job Role"></input>
 //so that it still shows up when javascript is turned off in the browser.
@@ -139,3 +151,38 @@ $activitiesSection.change( (event) => {
     //console.log('Hi');
 });
 
+
+//show corresponding sections when they are chosen and hide cc info section.
+$paymentDropDown.change( (event) => {
+    const option = event.target;
+    const $optionValue = $(option).prop("value");
+    //TODO: Remove test after.
+    console.log('Option: ' + option);
+    console.log('Option Value: ' + typeof $optionValue);
+
+    //declaring payment option variables for if statements.
+    const $paypalOption = $('#payment option[value="PayPal"]').text();
+    //TODO: Remove test after.
+    console.log(typeof $paypalOption);
+    const $bitcoinOption = $('#payment option[value="Bitcoin"]').text();
+    const $creditCardOption = $('#payment option[value="Credit Card"]').text();
+    
+    if ($optionValue === $paypalOption) {
+        $creditCardSection.hide();
+        $bitcoinSection.hide();
+        $paypalSection.show();
+    }
+
+    if ($optionValue === $bitcoinOption) {
+        $creditCardSection.hide();
+        $paypalSection.hide();
+        $bitcoinSection.show();
+    }
+
+    if ($optionValue === $creditCardOption) {
+        $paypalSection.hide();
+        $bitcoinSection.hide();
+        $creditCardSection.show();
+    }
+
+});
