@@ -117,26 +117,25 @@ $activitiesSection.change( (event) => {
     //What if I put this and the variable outside of this event listener and append it after the event listener?
     $('.activities').append('Total Cost: $' + totalCost);
 
-    //TODO: Need to get the if statement in the for loop working correctly.
     // if what is checked is a specific date and time loop through and if date and time match others disable them.
     for (let i = 0; i < checkboxesActivities.length; i++) {
         const currentCheckbox = checkboxesActivities[i];
         const currentCheckboxDayTime = $(currentCheckbox).attr("data-day-and-time");
         //TODO: Remove test after.
         //console.log(currentCheckbox);
+        //console.log(currentCheckboxDayTime);
         if (currentCheckboxDayTime === $clickedTime && currentCheckbox !== clicked) {
             if (clicked.checked) {
                 //if clicked was checked set the matching activities elements to disabled true 
-                $(currentCheckbox).attr('disabled', true);
+                $(currentCheckbox).prop('disabled', true);
+                console.log(currentCheckbox);
             } else {
                 //set the matching disabled property to disabled false
-                $(currentCheckbox).attr('disabled', false);
+                $(currentCheckbox).prop('disabled', false);
             }
         }
     }
-    //separate if statement for money? if :checked add up cost and show it. Maybe just a for loop of :checked take the cost and get the total then display?
     //TODO: Remove test after.
-    console.log('Hi');
-
+    //console.log('Hi');
 });
 
