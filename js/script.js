@@ -78,6 +78,10 @@ $('#payment option[value="select method"]').prop('disabled', true);
 //Validation Functions//
 
 //Validating the name field function.
+function isValidNameBlank(nameField){
+    return /\S+/.test(nameField);
+}
+
 function isValidName(nameField) {
     return /\w+/.test(nameField);
 }
@@ -173,7 +177,7 @@ $tShirtDesignDropdown.change( () => {
         $colorTomato.attr('hidden', true).attr('disabled', true);
         $colorSteelBlue.attr('hidden', true).attr('disabled', true);
         $colorDimGrey.attr('hidden', true).attr('disabled', true);
-        $colorOptions.show()
+        $colorOptions.show();
     } else if (option === 'Theme - I ♥ JS') {
         //TODO: Remove test.
         console.log('Test');
@@ -279,8 +283,16 @@ $paymentDropDown.change( (event) => {
 });
 
 //submit event handler if statements for validation messages.
-$form.on('submit', (event) => {
-    //event.preventDefault();
-    console.log('Register/Submit button was clicked!');
 
+$form.on('submit', (event) => {
+
+    if (isValidNameBlank($nameField)) {
+        event.preventDefault();
+        $nameBlankHelperText.show();
+        $nameField.addClass('input-border-red');
+        //figure out how to scroll to the field
+        //false doesn't seem to be working
+    }
+
+    console.log(isValidNameBlank($nameField));
 });
