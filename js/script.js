@@ -27,6 +27,7 @@ const $paymentDropDown = $('#payment');
 const $creditCardSection = $('#credit-card');
 const $paypalSection = $('#paypal');
 const $bitcoinSection = $('#bitcoin');
+const $form = $('form');
 
 //This sets the curser to the first input on page load. Chose to use window.onload for better browser compatability.
 window.onload = () => {
@@ -47,6 +48,50 @@ $('#payment option[value="select method"]').prop('disabled', true);
 
 //added this code to the html file: <input type="text" id="other-title" name="user_other_jobtitle" placeholder="Your Job Role"></input>
 //so that it still shows up when javascript is turned off in the browser.
+
+//validation Requirements//
+
+/* 
+- Name field can't be blank.
+- Email field must be a validly formatted e-mail address (you don't have to check that it's a real e-mail address, just that it's formatted like one: dave@teamtreehouse.com for example.
+- User must select at least one checkbox under the "Register for Activities" section of the form.
+- If the selected payment option is "Credit Card," make sure the user has supplied a Credit Card number, a Zip Code, and a 3 number CVV value before the form can be submitted.
+- Credit Card field should only accept a number between 13 and 16 digits.
+- The Zip Code field should accept a 5-digit number.
+- The CVV should only accept a number that is exactly 3 digits long.
+*/
+
+//Validation Functions//
+
+//Validating the name field function.
+function isValidName(nameField) {
+    return /\w+/.test(nameField);
+}
+
+function isValidEmail(emailField) {
+    return /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailField);
+}
+
+function isValidOneCheckbox(checkboxes) {
+    for (i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+//TODO: Remove test after.
+console.log(isValidOneCheckbox($checkboxesActivities));
+
+function isValidCreditCardSection(ccField, zipCodeField, cvvField) {
+//only if credit card payment option is selected.
+return  /\d{13,16}/.test(ccField) &
+        /\d{5}/.test(zipCodeField) &
+        /\d{3}/.test(cvvField);
+}
+
 
 //Event Handlers//
 
@@ -192,47 +237,9 @@ $paymentDropDown.change( (event) => {
 
 });
 
+//submit event handler if statements for validation messages.
+$form.on('submit', (event) => {
+    //event.preventDefault();
+    console.log('Register/Submit button was clicked!');
 
-//validation Requirements//
-
-/* 
-- Name field can't be blank.
-- Email field must be a validly formatted e-mail address (you don't have to check that it's a real e-mail address, just that it's formatted like one: dave@teamtreehouse.com for example.
-- User must select at least one checkbox under the "Register for Activities" section of the form.
-- If the selected payment option is "Credit Card," make sure the user has supplied a Credit Card number, a Zip Code, and a 3 number CVV value before the form can be submitted.
-- Credit Card field should only accept a number between 13 and 16 digits.
-- The Zip Code field should accept a 5-digit number.
-- The CVV should only accept a number that is exactly 3 digits long.
-*/
-
-//Validation Functions//
-
-//Validating the name field function.
-function isValidName(nameField) {
-    return /\w+/.test(nameField);
-}
-
-function isValidEmail(emailField) {
-    return /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailField);
-}
-
-function isValidOneCheckbox(checkboxes) {
-    for (i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i].checked) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-}
-
-//TODO: Remove test after.
-console.log(isValidOneCheckbox($checkboxesActivities));
-
-function isValidCreditCardSection(ccField, zipCodeField, cvvField) {
-//only if credit card payment option is selected.
-return  /\d{13,16}/.test(ccField) &
-        /\d{5}/.test(zipCodeField) &
-        /\d{3}/.test(cvvField);
-}
-//then event listener for submit put if statements//
+});
