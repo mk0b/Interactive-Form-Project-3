@@ -159,8 +159,17 @@ option {
 	color: #cc0000;
 	font-weight: bold;
 	padding-bottom: 15px;
-
   }
+
+.input-border-red {
+	font-size: 1em;
+	font-weight: 500;
+	padding: .8em;
+	background: #e9f6fb;
+	border: 2px solid #cc0000;
+	border-radius: 3px;
+	outline: none;
+}
 
 
 

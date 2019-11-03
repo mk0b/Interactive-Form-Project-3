@@ -46,6 +46,13 @@ $otherJobSection.hide();
 $colorOptions.hide();
 $paypalSection.hide();
 $bitcoinSection.hide();
+$nameBlankHelperText.hide();
+$nameLettersHelperText.hide();
+$emailHelperText.hide();
+$oneActivtyHelperText.hide();
+$ccNumberHelperText.hide();
+$ccZipcodeHelperText.hide();
+$ccCvvHelperText.hide();
 
 //Setting CC to default selection in payment info dropdown.
 $('#payment option[value="Credit Card"]').prop('selected', true);
