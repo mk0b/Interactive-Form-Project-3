@@ -150,6 +150,22 @@ option {
 }
 
 /* ================================= 
+  Helper Text
+==================================== */
+
+.helperText {
+	position: relative;
+	display: inline-block;
+	color: #cc0000;
+	font-weight: bold;
+	padding-bottom: 15px;
+
+  }
+
+
+
+
+/* ================================= 
   Helper Classes
 ==================================== */
 

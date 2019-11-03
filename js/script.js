@@ -28,6 +28,13 @@ const $creditCardSection = $('#credit-card');
 const $paypalSection = $('#paypal');
 const $bitcoinSection = $('#bitcoin');
 const $form = $('form');
+const $nameBlankHelperText = $('#name-blank-helpertext');
+const $nameLettersHelperText = $('#name-letters-helpertext');
+const $emailHelperText = $('#email-format-helpertext');
+const $oneActivtyHelperText = $('#one-activity-helpertext');
+const $ccNumberHelperText = $('#ccnumber-helpertext');
+const $ccZipcodeHelperText = $('#zipcode-helpertext');
+const $ccCvvHelperText = $('#cvv-helpertext');
 
 //This sets the curser to the first input on page load. Chose to use window.onload for better browser compatability.
 window.onload = () => {
@@ -85,12 +92,39 @@ function isValidOneCheckbox(checkboxes) {
 //TODO: Remove test after.
 console.log(isValidOneCheckbox($checkboxesActivities));
 
-function isValidCreditCardSection(ccField, zipCodeField, cvvField) {
+function isValidCreditCardNumber(ccField) {
 //only if credit card payment option is selected.
-return  /\d{13,16}/.test(ccField) &
-        /\d{5}/.test(zipCodeField) &
-        /\d{3}/.test(cvvField);
+return  /\d{13,16}/.test(ccField);
 }
+
+function isValidCCZipcode(zipCodeField) {
+    return /\d{5}/.test(zipCodeField);
+}
+
+function isValidCvv(cvvField) {
+    return /\d{3}/.test(cvvField);
+}
+
+//Helper Functions to help set-up some event handlers for showing/hiding the helper text.
+//added <span> helper text to each validation field section in the html.
+function showHideHelperText(show, element) {
+    // show element when show is true, hide when false
+    if (show) {
+      element.style.display = "inherit";
+    } else {
+      element.style.display = "none";
+    }
+  }
+  
+  function createListener(validator) {
+    return event => {
+      const text = event.target.value;
+      const valid = validator(text);
+      const showHelperText = text !== "" && !valid;
+      const helperText = event.target.nextElementSibling;
+      showOrHideTip(showHelperText, helperText);
+    };
+  }
 
 
 //Event Handlers//
