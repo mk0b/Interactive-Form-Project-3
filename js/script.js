@@ -11,7 +11,7 @@ as a TeamTreehouse Full Stack JavaScript Talent Path student.*/
 //TODO: Refactor Code
 //TODO: css/reset.css or css/normalize.css - Google and add to project (Opt)
 //TODO: Add placeholder text to make more usable?
-//TODO: Play with CSS
+//TODO: Play with CSS.
 
 //Declaring some global variables
 //Choosing to store these to make the code more readable.
@@ -19,8 +19,10 @@ const $jobRoleSection = $('#title');
 const $otherJobSection = $('#other-title');
 const $colorOptions = $('#colors-js-puns');
 const $nameField = $('#name');
+const $emailField = $('#mail');
 const $tShirtDesignDropdown = $('#design');
 const $activitiesSection = $('.activities');
+const $checkboxesActivities = $('.activities input');
 const $paymentDropDown = $('#payment');
 const $creditCardSection = $('#credit-card');
 const $paypalSection = $('#paypal');
@@ -115,13 +117,13 @@ $activitiesSection.change( (event) => {
     console.log($clickedTime);
     const $clickedCost = parseInt($(clicked).attr("data-cost").replace("$", ""));
     //TODO: Remove test after.
-    console.log($clickedCost);
+    console.log(typeof $clickedCost);
     let totalCost = 0;
 
     //Use the checkboxes to loop through each check box and if it matches clickedtime grey it out.
-    const checkboxesActivities = $('.activities input');
+
     //TODO: Remove test after.
-    console.log(checkboxesActivities);
+    console.log($checkboxesActivities);
 
     //TODO: Need to get Total Cost string to show/add correctly.
     if (clicked.checked) {
@@ -133,8 +135,8 @@ $activitiesSection.change( (event) => {
     $('.activities').append('Total Cost: $' + totalCost);
 
     // if what is checked is a specific date and time loop through and if date and time match others disable them.
-    for (let i = 0; i < checkboxesActivities.length; i++) {
-        const currentCheckbox = checkboxesActivities[i];
+    for (let i = 0; i < $checkboxesActivities.length; i++) {
+        const currentCheckbox = $checkboxesActivities[i];
         const currentCheckboxDayTime = $(currentCheckbox).attr("data-day-and-time");
         //TODO: Remove test after.
         //console.log(currentCheckbox);
@@ -189,3 +191,48 @@ $paymentDropDown.change( (event) => {
     }
 
 });
+
+
+//validation Requirements//
+
+/* 
+- Name field can't be blank.
+- Email field must be a validly formatted e-mail address (you don't have to check that it's a real e-mail address, just that it's formatted like one: dave@teamtreehouse.com for example.
+- User must select at least one checkbox under the "Register for Activities" section of the form.
+- If the selected payment option is "Credit Card," make sure the user has supplied a Credit Card number, a Zip Code, and a 3 number CVV value before the form can be submitted.
+- Credit Card field should only accept a number between 13 and 16 digits.
+- The Zip Code field should accept a 5-digit number.
+- The CVV should only accept a number that is exactly 3 digits long.
+*/
+
+//Validation Functions//
+
+//Validating the name field function.
+function isValidName(nameField) {
+    return /\w+/.test(nameField);
+}
+
+function isValidEmail(emailField) {
+    return /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailField);
+}
+
+function isValidOneCheckbox(checkboxes) {
+    for (i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+//TODO: Remove test after.
+console.log(isValidOneCheckbox($checkboxesActivities));
+
+function isValidCreditCardSection(ccField, zipCodeField, cvvField) {
+//only if credit card payment option is selected.
+return  /\d{13,16}/.test(ccField) &
+        /\d{5}/.test(zipCodeField) &
+        /\d{3}/.test(cvvField);
+}
+//then event listener for submit put if statements//
