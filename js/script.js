@@ -30,11 +30,13 @@ const $bitcoinSection = $('#bitcoin');
 const $form = $('form');
 const $nameBlankHelperText = $('#name-blank-helpertext');
 const $nameLettersHelperText = $('#name-letters-helpertext');
-const $emailHelperText = $('#email-format-helpertext');
+const $emailHelperText = $('#email-format-helpertext'); 
 const $oneActivtyHelperText = $('#one-activity-helpertext');
 const $ccNumberHelperText = $('#ccnumber-helpertext');
 const $ccZipcodeHelperText = $('#zipcode-helpertext');
 const $ccCvvHelperText = $('#cvv-helpertext');
+
+console.log('Type of $nameField: ' +  typeof $nameField.val());
 
 //This sets the curser to the first input on page load. Chose to use window.onload for better browser compatability.
 window.onload = () => {
@@ -81,15 +83,12 @@ $('#payment option[value="select method"]').prop('disabled', true);
 function isValidNameBlank(nameField){
     if (nameField === '') {
         return true;
-    } else {
+    } else if (nameField !== '') {
         return false;
     }
 }
-
-//keeping here for testing will move after
-//I don't know what I'm doing.
-//TODO: Test more/remove this? Do something.
-$nameField.on('input', createListener(isValidNameBlank));
+//TODO: remove after
+console.log(isValidNameBlank($nameField));
 
 function isValidName(nameField) {
     return /\w+/.test(nameField);
@@ -125,26 +124,7 @@ function isValidCvv(cvvField) {
     return /\d{3}/.test(cvvField);
 }
 
-//Helper Functions to help set-up some event handlers for showing/hiding the helper text.
-//added <span> helper text to each validation field section in the html.
-function showHideHelperText(show, element) {
-    // show element when show is true, hide when false
-    if (show) {
-      element.style.display = "inherit";
-    } else {
-      element.style.display = "none";
-    }
-  }
-  
-  function createListener(validator) {
-    return event => {
-      const text = event.target.value;
-      const valid = validator(text);
-      const showHelperText = text !== "" && !valid;
-      const helperText = event.target.nextElementSibling;
-      showHideHelperText(showHelperText, helperText);
-    };
-  }
+//TODO: took out helper functions. Not sure if I am going to put back in.
 
 
 //Event Handlers//
@@ -296,17 +276,17 @@ $paymentDropDown.change( (event) => {
 $form.on('submit', (event) => {
 
     //I can't figure out why the following keeps only returning true and false not true or false.
-    if (isValidNameBlank($nameField.text()) === true) {
+    if (isValidNameBlank($nameField.val())) {
         event.preventDefault();
         $nameBlankHelperText.show();
         $nameField.addClass('input-border-red');
-        //figure out how to scroll to the field
-        //false doesn't seem to be working
+        console.log($nameField.val());
+        //TODO: figure out how to scroll to the field
     } else {
         //to set it back to hide after it's been shown (if they fixed an error)
         $nameBlankHelperText.hide();
         $nameField.addClass('');
+        console.log($nameField.val());
     }
 
-    console.log(isValidNameBlank($nameField.text()));
 });
