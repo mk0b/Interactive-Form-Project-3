@@ -276,6 +276,18 @@ $paymentDropDown.change( (event) => {
 
 });
 
+//real time listener for email field not being correct email format
+$emailField.on('input', () => {
+    if (isValidEmail($emailField)) {
+        $emailBlankHelperText.show();
+        $emailField.toggleClass('input-border-red');
+    } else {
+        $emailBlankHelperText.hide();
+        $emailField.toggleClass('input-border-red');
+    }
+
+});
+
 //submit event handler if statements for validation messages.
 
 $form.on('submit', (event) => {
@@ -284,14 +296,14 @@ $form.on('submit', (event) => {
     if (isValidNameBlank($nameField.val())) {
         event.preventDefault();
         $nameBlankHelperText.show();
-        $nameField.addClass('input-border-red');
+        $nameField.toggleClass('input-border-red');
         //TODO: Remove test after.
         console.log($nameField.val());
         //TODO: figure out how to scroll to the field
     } else {
         //to set it back to hide after it's been shown (if they fixed an error)
         $nameBlankHelperText.hide();
-        $nameField.addClass('');
+        $nameField.toggleClass('input-border-red');
         //TODO: Remove test after.
         console.log($nameField.val());
     }
@@ -300,12 +312,12 @@ $form.on('submit', (event) => {
     if (isValidEmailBlank($emailField.val())) {
         event.preventDefault();
         $emailBlankHelperText.show();
-        $emailField.addClass('input-border-red');
+        $emailField.toggleClass('input-border-red');
         //TODO: Remove test after.
         console.log($emailField.val());
     } else {
         $emailBlankHelperText.hide();
-        $emailField.addClass('');
+        $emailField.toggleClass('input-border-red');
         //TODO: Remove test after.
         console.log($emailField.val());
     }
@@ -314,14 +326,14 @@ $form.on('submit', (event) => {
     //I had to change this field to just a reguler input field because the browser was doing this validation for me.
     if (isValidEmail($emailField.val())) {
         $emailHelperText.hide();
-        $emailField.addClass('');
+        $emailField.toggleClass('input-border-red');
         //TODO: Remove test after.
         //console.log('True ' + $emailField.val());
         //console.log(isValidEmail($emailField.val()));
     } else {
         event.preventDefault();
         $emailHelperText.show();
-        $emailField.addClass('input-border-red');
+        $emailField.toggleClass('input-border-red');
         //TODO: Remove test after.
         //console.log('Else ' + $emailField.val());
         //console.log(isValidEmail($emailField.val()));
@@ -339,21 +351,45 @@ $form.on('submit', (event) => {
         //console.log('False ' + isValidOneCheckbox($checkboxesActivities));
     }
 
-    //if Credit Card is selected in payment
+    //if Credit Card is selected in payment - validate these
+    console.log($paymentDropDown.val());
     const $creditCardOption = $('#payment option[value="Credit Card"]').text();
-    if ($creditCardOption) {
+    if ($paymentDropDown.val() === $creditCardOption) {
         //require these
         console.log('true cc is selected');
+        
+        //Credit Card format between 13 and 16 digits. If it doesn't match prevent submit and show helper text.
         if (isValidCreditCardNumber($creditCardNumberField.val())) {
-            event.preventDefault();
             $ccNumberHelperText.hide();
-            $creditCardNumberField.addClass('');
+            $creditCardNumberField.toggleClass('input-border-red');
             console.log(isValidCreditCardNumber($creditCardNumberField.val()));
         } else {
             event.preventDefault();
             $ccNumberHelperText.show();
-            $creditCardNumberField.addClass('input-border-red');
+            $creditCardNumberField.toggleClass('input-border-red');
             console.log(isValidCreditCardNumber($creditCardNumberField.val()));
+        }
+
+        //Zipcode for CC needs to be 5 digits. If it isn't prevent submit and show helper text.
+        if (isValidCCZipcode($creditCardZipCodeField.val())) {
+            $ccZipcodeHelperText.hide();
+            $creditCardZipCodeField.toggleClass('input-border-red');
+            console.log(isValidCCZipcode($creditCardZipCodeField.val()));
+        } else {
+            event.preventDefault();
+            $ccZipcodeHelperText.show();
+            $creditCardZipCodeField.toggleClass('input-border-red');
+            console.log(isValidCCZipcode($creditCardZipCodeField.val()));
+        }
+
+        //CVV must be 3 digits. If not then prevent submit and show helper text.
+        if (isValidCvv($creditCardCvvField.val())) {
+            $ccCvvHelperText.hide();
+            $creditCardCvvField.toggleClass('input-border-red');
+        } else {
+            event.preventDefault();
+            $ccCvvHelperText.show();
+            $creditCardCvvField.toggleClass('input-border-red');
         }
     }
 
