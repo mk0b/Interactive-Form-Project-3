@@ -171,7 +171,7 @@ $tShirtDesignDropdown.change( () => {
     }
 });
 
-//This event handler doesn't allow events of the same day/time to be selected. 
+//This event handler doesn't allow events of the same day and time to be selected. 
 //Disable the same events and time after one is selected so that the user cannot
 //double book themselves.
 //As a user selects make a running total of the dollar amounts and then display it 
@@ -216,11 +216,11 @@ $activitiesSection.change( (event) => {
         if (currentCheckboxDayTime === $clickedTime && currentCheckbox !== clicked) {
             if (clicked.checked) {
                 //if clicked was checked set the matching activities elements to disabled true 
-                $(currentCheckbox).prop('disabled', true).addClass('.disabled-activities');
+                $(currentCheckbox).prop('disabled', true);
                 console.log(currentCheckbox);
             } else {
                 //set the matching disabled property to disabled false
-                $(currentCheckbox).prop('disabled', false).removeClass('.disabled-activities');
+                $(currentCheckbox).prop('disabled', false);
             }
         }
     }
@@ -229,7 +229,7 @@ $activitiesSection.change( (event) => {
 });
 
 
-//show corresponding sections when they are chosen and hide cc info section.
+//Show corresponding payment sections when they are chosen and hide cc info section.
 $paymentDropDown.change( (event) => {
     const option = event.target;
     const $optionValue = $(option).prop("value");
