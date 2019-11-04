@@ -79,8 +79,17 @@ $('#payment option[value="select method"]').prop('disabled', true);
 
 //Validating the name field function.
 function isValidNameBlank(nameField){
-    return /\S+/.test(nameField);
+    if (nameField === '') {
+        return true;
+    } else {
+        return false;
+    }
 }
+
+//keeping here for testing will move after
+//I don't know what I'm doing.
+//TODO: Test more/remove this? Do something.
+$nameField.on('input', createListener(isValidNameBlank));
 
 function isValidName(nameField) {
     return /\w+/.test(nameField);
@@ -133,7 +142,7 @@ function showHideHelperText(show, element) {
       const valid = validator(text);
       const showHelperText = text !== "" && !valid;
       const helperText = event.target.nextElementSibling;
-      showOrHideTip(showHelperText, helperText);
+      showHideHelperText(showHelperText, helperText);
     };
   }
 
@@ -286,13 +295,18 @@ $paymentDropDown.change( (event) => {
 
 $form.on('submit', (event) => {
 
-    if (isValidNameBlank($nameField)) {
+    //I can't figure out why the following keeps only returning true and false not true or false.
+    if (isValidNameBlank($nameField.text()) === true) {
         event.preventDefault();
         $nameBlankHelperText.show();
         $nameField.addClass('input-border-red');
         //figure out how to scroll to the field
         //false doesn't seem to be working
+    } else {
+        //to set it back to hide after it's been shown (if they fixed an error)
+        $nameBlankHelperText.hide();
+        $nameField.addClass('');
     }
 
-    console.log(isValidNameBlank($nameField));
+    console.log(isValidNameBlank($nameField.text()));
 });
