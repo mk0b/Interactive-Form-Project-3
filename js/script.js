@@ -25,11 +25,14 @@ const $activitiesSection = $('.activities');
 const $checkboxesActivities = $('.activities input');
 const $paymentDropDown = $('#payment');
 const $creditCardSection = $('#credit-card');
+const $creditCardNumberField = $('#cc-num');
+const $creditCardZipCodeField = $('#zip');
+const $creditCardCvvField = $('#cvv');
 const $paypalSection = $('#paypal');
 const $bitcoinSection = $('#bitcoin');
 const $form = $('form');
 const $nameBlankHelperText = $('#name-blank-helpertext');
-const $nameLettersHelperText = $('#name-letters-helpertext');
+const $emailBlankHelperText = $('#email-not-blank');
 const $emailHelperText = $('#email-format-helpertext'); 
 const $oneActivtyHelperText = $('#one-activity-helpertext');
 const $ccNumberHelperText = $('#ccnumber-helpertext');
@@ -49,7 +52,7 @@ $colorOptions.hide();
 $paypalSection.hide();
 $bitcoinSection.hide();
 $nameBlankHelperText.hide();
-$nameLettersHelperText.hide();
+$emailBlankHelperText.hide();
 $emailHelperText.hide();
 $oneActivtyHelperText.hide();
 $ccNumberHelperText.hide();
@@ -83,15 +86,17 @@ $('#payment option[value="select method"]').prop('disabled', true);
 function isValidNameBlank(nameField){
     if (nameField === '') {
         return true;
-    } else if (nameField !== '') {
+    } else  {
         return false;
     }
 }
-//TODO: remove after
-console.log(isValidNameBlank($nameField));
 
-function isValidName(nameField) {
-    return /\w+/.test(nameField);
+function isValidEmailBlank(emailField) {
+    if (emailField === '') {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function isValidEmail(emailField) {
@@ -275,18 +280,81 @@ $paymentDropDown.change( (event) => {
 
 $form.on('submit', (event) => {
 
-    //I can't figure out why the following keeps only returning true and false not true or false.
+    //If name field is blank prevent submit and show helper text.
     if (isValidNameBlank($nameField.val())) {
         event.preventDefault();
         $nameBlankHelperText.show();
         $nameField.addClass('input-border-red');
+        //TODO: Remove test after.
         console.log($nameField.val());
         //TODO: figure out how to scroll to the field
     } else {
         //to set it back to hide after it's been shown (if they fixed an error)
         $nameBlankHelperText.hide();
         $nameField.addClass('');
+        //TODO: Remove test after.
         console.log($nameField.val());
+    }
+
+    //if email field is blank prevent submit and show helper text.
+    if (isValidEmailBlank($emailField.val())) {
+        event.preventDefault();
+        $emailBlankHelperText.show();
+        $emailField.addClass('input-border-red');
+        //TODO: Remove test after.
+        console.log($emailField.val());
+    } else {
+        $emailBlankHelperText.hide();
+        $emailField.addClass('');
+        //TODO: Remove test after.
+        console.log($emailField.val());
+    }
+
+    //if email field is not the correct format prevent submit and show helper text.
+    //I had to change this field to just a reguler input field because the browser was doing this validation for me.
+    if (isValidEmail($emailField.val())) {
+        $emailHelperText.hide();
+        $emailField.addClass('');
+        //TODO: Remove test after.
+        //console.log('True ' + $emailField.val());
+        //console.log(isValidEmail($emailField.val()));
+    } else {
+        event.preventDefault();
+        $emailHelperText.show();
+        $emailField.addClass('input-border-red');
+        //TODO: Remove test after.
+        //console.log('Else ' + $emailField.val());
+        //console.log(isValidEmail($emailField.val()));
+    }
+
+    //if no activities are checked off prevent submit and show helper text.
+    if (isValidOneCheckbox($checkboxesActivities)) {
+        $oneActivtyHelperText.hide();
+        //TODO: Remove test after.
+        //console.log('True ' + isValidOneCheckbox($checkboxesActivities));
+    } else {
+        event.preventDefault();
+        $oneActivtyHelperText.show();
+        //TODO: Remove test after.
+        //console.log('False ' + isValidOneCheckbox($checkboxesActivities));
+    }
+
+    //if Credit Card is selected in payment
+    const $creditCardOption = $('#payment option[value="Credit Card"]').text();
+    if ($creditCardOption) {
+        //require these
+        console.log('true cc is selected');
+        if (isValidCreditCardNumber($creditCardNumberField.val())) {
+            event.preventDefault();
+            $ccNumberHelperText.hide();
+            $creditCardNumberField.addClass('');
+            console.log(isValidCreditCardNumber($creditCardNumberField.val()));
+        } else {
+            event.preventDefault();
+            $ccNumberHelperText.show();
+            $creditCardNumberField.addClass('input-border-red');
+            console.log(isValidCreditCardNumber($creditCardNumberField.val()));
+        }
     }
 
 });
