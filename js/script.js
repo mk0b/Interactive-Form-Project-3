@@ -22,20 +22,9 @@ const $creditCardCvvField = $('#cvv');
 const $paypalSection = $('#paypal');
 const $bitcoinSection = $('#bitcoin');
 const $form = $('form');
-//TODO: Delete these
-const nameBlankHelperText = '<span class="helperText" id="name-blank-helpertext">Name field cannot be blank.</span>';
-const emailBlankHelperText = '<br><span class="helperText" id="email-not-blank">Email field cannot be blank.</span>';
-const emailHelperText = '<br><span class="helperText" id="email-format-helpertext">Email field must be in valid email format. Example: "name@email.com"</span>'; 
-const oneActivtyHelperText = '<span class="helperText" id="one-activity-helpertext">You must select at least one activity.</span>';
-const ccNumberHelperText = '<span class="helperText" id="ccnumber-helpertext">Credit Card Number must be between 13 and 16 numbers.</span>';
-const ccZipcodeHelperText = '<span class="helperText" id="zipcode-helpertext">Zipcode must be 5 numbers.</span>';
-const ccCvvHelperText = '<span class="helperText" id="cvv-helpertext">CVV must be 3 numbers.</span>';
-//
-
-//TODO: Refactor to more easily create these elements?
 let totalCost = 0;
+//Creating new elements.
 const totalCostDiv = document.createElement('div');
-
 const emailHelperRealTimeSpan = document.createElement('span');
 const helperSpanName = document.createElement('span');
 const helperSpanEmailBlank = document.createElement('span');
@@ -111,7 +100,6 @@ function isValidOneCheckbox(checkboxes) {
 }
 
 function isValidCreditCardNumber(ccField) {
-//only if credit card payment option is selected.
 return  /\d{13,16}/.test(ccField);
 }
 
@@ -251,8 +239,6 @@ $emailField.on('input', (event) => {
     }
 });
 
-//TODO: I think I have to do them all like I did the event listener real time. 
-//TODO: Fix the class. Toggle wont work in some cases : (
 //Submit event handler if statements for validation messages.
 $form.on('submit', (event) => {
     
@@ -267,9 +253,9 @@ $form.on('submit', (event) => {
         $nameField.removeClass('input-border-red');
     }
 
-    //if submit is hit and email field is blank -- > only display email field cannot be blank
-    //if submit is hit and email field is not blank and doesn't match validation --> only dispaly email field needs to be correct format
-    //else remove helper text and red class
+    /*This if statement is either only displays the email cannot be blank error message if the field is blank when
+    the form is submitted. If the field is not blank and doesn't meet the validation the email format error will show.
+    If neither of these conditions are met, the errors will be removed and the class will be removed.*/
 
     if (isValidEmailBlank($emailField.val())) {
         event.preventDefault();
