@@ -159,6 +159,10 @@ $tShirtDesignDropdown.change( () => {
         $colorTomato.attr('hidden', true).attr('disabled', true);
         $colorSteelBlue.attr('hidden', true).attr('disabled', true);
         $colorDimGrey.attr('hidden', true).attr('disabled', true);
+        //show
+        $colorCornflowerBlue.attr('hidden', false).attr('disabled', false);
+        $colorDarkSlateGrey.attr('hidden', false).attr('disabled', false);
+        $colorGold.attr('hidden', false).attr('disabled', false);
         $colorOptions.show();
     } else if (option === 'Theme - I ♥ JS') {
         //TODO: Remove test.
@@ -167,6 +171,10 @@ $tShirtDesignDropdown.change( () => {
         $colorCornflowerBlue.attr('hidden', true).attr('disabled', true);
         $colorDarkSlateGrey.attr('hidden', true).attr('disabled', true);
         $colorGold.attr('hidden', true).attr('disabled', true);
+        //show
+        $colorTomato.attr('hidden', false).attr('disabled', false);
+        $colorSteelBlue.attr('hidden', false).attr('disabled', false);
+        $colorDimGrey.attr('hidden', false).attr('disabled', false);
         $colorOptions.show();
     }
 });
