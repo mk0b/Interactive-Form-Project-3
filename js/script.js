@@ -38,6 +38,11 @@ const $oneActivtyHelperText = $('#one-activity-helpertext');
 const $ccNumberHelperText = $('#ccnumber-helpertext');
 const $ccZipcodeHelperText = $('#zipcode-helpertext');
 const $ccCvvHelperText = $('#cvv-helpertext');
+let totalCost = 0;
+const totalCostDiv = document.createElement('div');
+
+//Adding some color and bold to the totalCostDiv
+$(totalCostDiv).addClass('total-cost');
 
 console.log('Type of $nameField: ' +  typeof $nameField.val());
 
@@ -188,8 +193,6 @@ $tShirtDesignDropdown.change( () => {
 //As a user selects make a running total of the dollar amounts and then display it 
 //below the list of checkboxes.
 
-//TODO: Try to fix class/options for line through when disabled. Seems to work but nothing is showing in the browser.
-
 $activitiesSection.change( (event) => {
     //When clicked store what was clicked -- get data day and time -- get cost
     const clicked = event.target;
@@ -201,21 +204,23 @@ $activitiesSection.change( (event) => {
     const $clickedCost = parseInt($(clicked).attr("data-cost").replace("$", ""));
     //TODO: Remove test after.
     console.log(typeof $clickedCost);
-    let totalCost = 0;
-
+    
+    //Appending the Total Cost Div to the bottom of the activities section.
+    
     //Use the checkboxes to loop through each check box and if it matches clickedtime grey it out.
 
     //TODO: Remove test after.
     console.log($checkboxesActivities);
 
-    //TODO: Need to get Total Cost string to show/add correctly.
     if (clicked.checked) {
         totalCost += $clickedCost;
+        $activitiesSection.append($(totalCostDiv).text('Total Cost: $' + totalCost));
     } else {
         totalCost -= $clickedCost;
+        $activitiesSection.append($(totalCostDiv).text('Total Cost: $' + totalCost));
     }
     //What if I put this and the variable outside of this event listener and append it after the event listener?
-    $('.activities').append('Total Cost: $' + totalCost);
+    //('Total Cost: $' + totalCost);
 
     // if what is checked is a specific date and time loop through and if date and time match others disable them.
     for (let i = 0; i < $checkboxesActivities.length; i++) {
@@ -238,6 +243,7 @@ $activitiesSection.change( (event) => {
     //TODO: Remove test after.
     //console.log('Hi');
 });
+
 
 
 //Show corresponding payment sections when they are chosen and hide cc info section.
