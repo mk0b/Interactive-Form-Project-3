@@ -150,16 +150,18 @@ $tShirtDesignDropdown.change( () => {
     const $colorCornflowerBlue = $('#color option[value="cornflowerblue"]');
     const $colorDarkSlateGrey = $('#color option[value="darkslategrey"]');
     const $colorGold = $('#color option[value="gold"]');
+    const $firstSelect = $('#color option:first');
     
     if (option === 'Theme - JS Puns') {
         //trying to empty and reload or refresh the design dropdown
         //doesn't seem to work either.trigger('chosen:updated');
         // basically gives an error saying it's not allowed $colorOptions.empty().load(location.href + '#colors-js-puns > *');
+        $firstSelect.prop('selected', true);
         //Disable colors that should not be in the list for this theme.
         $colorTomato.attr('hidden', true).attr('disabled', true);
         $colorSteelBlue.attr('hidden', true).attr('disabled', true);
         $colorDimGrey.attr('hidden', true).attr('disabled', true);
-        //show
+        //Show these
         $colorCornflowerBlue.attr('hidden', false).attr('disabled', false);
         $colorDarkSlateGrey.attr('hidden', false).attr('disabled', false);
         $colorGold.attr('hidden', false).attr('disabled', false);
@@ -167,11 +169,12 @@ $tShirtDesignDropdown.change( () => {
     } else if (option === 'Theme - I ♥ JS') {
         //TODO: Remove test.
         console.log('Test');
+        $firstSelect.prop('selected', true);
         //Disable colors that should not be in the list for this theme.
         $colorCornflowerBlue.attr('hidden', true).attr('disabled', true);
         $colorDarkSlateGrey.attr('hidden', true).attr('disabled', true);
         $colorGold.attr('hidden', true).attr('disabled', true);
-        //show
+        //Show these
         $colorTomato.attr('hidden', false).attr('disabled', false);
         $colorSteelBlue.attr('hidden', false).attr('disabled', false);
         $colorDimGrey.attr('hidden', false).attr('disabled', false);
