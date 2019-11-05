@@ -22,15 +22,18 @@ const $creditCardCvvField = $('#cvv');
 const $paypalSection = $('#paypal');
 const $bitcoinSection = $('#bitcoin');
 const $form = $('form');
-const $nameBlankHelperText = $('#name-blank-helpertext');
-const $emailBlankHelperText = $('#email-not-blank');
-const $emailHelperText = $('#email-format-helpertext'); 
-const $oneActivtyHelperText = $('#one-activity-helpertext');
-const $ccNumberHelperText = $('#ccnumber-helpertext');
-const $ccZipcodeHelperText = $('#zipcode-helpertext');
-const $ccCvvHelperText = $('#cvv-helpertext');
+const nameBlankHelperText = '<span class="helperText" id="name-blank-helpertext">Name field cannot be blank.</span>';
+const emailBlankHelperText = '<br><span class="helperText" id="email-not-blank">Email field cannot be blank.</span>';
+const emailHelperText = '<br><span class="helperText" id="email-format-helpertext">Email field must be in valid email format. Example: "name@email.com"</span>'; 
+const oneActivtyHelperText = '<span class="helperText" id="one-activity-helpertext">You must select at least one activity.</span>';
+const ccNumberHelperText = '<span class="helperText" id="ccnumber-helpertext">Credit Card Number must be between 13 and 16 numbers.</span>';
+const ccZipcodeHelperText = '<span class="helperText" id="zipcode-helpertext">Zipcode must be 5 numbers.</span>';
+const ccCvvHelperText = '<span class="helperText" id="cvv-helpertext">CVV must be 3 numbers.</span>';
 let totalCost = 0;
 const totalCostDiv = document.createElement('div');
+
+//create them like 25 then append/remove right in the error messaging I have set-up. Remove all the old.
+
 
 //Adding some color and bold to the totalCostDiv
 $(totalCostDiv).addClass('total-cost');
@@ -46,13 +49,6 @@ $otherJobSection.hide();
 $colorOptions.hide();
 $paypalSection.hide();
 $bitcoinSection.hide();
-$nameBlankHelperText.hide();
-$emailBlankHelperText.hide();
-$emailHelperText.hide();
-$oneActivtyHelperText.hide();
-$ccNumberHelperText.hide();
-$ccZipcodeHelperText.hide();
-$ccCvvHelperText.hide();
 
 //Setting CC to default selection in payment info dropdown.
 $('#payment option[value="Credit Card"]').prop('selected', true);
@@ -131,6 +127,7 @@ $tShirtDesignDropdown.change( () => {
     const $colorDarkSlateGrey = $('#color option[value="darkslategrey"]');
     const $colorGold = $('#color option[value="gold"]');
     const $firstSelect = $('#color option:first');
+    const $secondSelect = $('#color option[value="tomato"]');
     
     if (option === 'Theme - JS Puns') {
         //trying to empty and reload or refresh the design dropdown
@@ -147,7 +144,7 @@ $tShirtDesignDropdown.change( () => {
         $colorGold.attr('hidden', false).attr('disabled', false);
         $colorOptions.show();
     } else if (option === 'Theme - I ♥ JS') {
-        $firstSelect.prop('selected', true);
+        $secondSelect.prop('selected', true);
         //Disable colors that should not be in the list for this theme.
         $colorCornflowerBlue.attr('hidden', true).attr('disabled', true);
         $colorDarkSlateGrey.attr('hidden', true).attr('disabled', true);
@@ -226,12 +223,13 @@ $paymentDropDown.change( (event) => {
 });
 
 //Real time listener for email field not being correct email format.
+//TODO: figure out how to fix this.
 $emailField.on('input', (event) => {
     const text = event.target.value;
     if (isValidEmail(text)) {
-        $emailHelperText.hide();
+        $emailField.remove(emailHelperText);
     } else {
-        $emailHelperText.show();
+        $emailField.after(emailHelperText);
     }
 });
 
@@ -241,41 +239,41 @@ $form.on('submit', (event) => {
     //If name field is blank prevent submit and show helper text.
     if (isValidNameBlank($nameField.val())) {
         event.preventDefault();
-        $nameBlankHelperText.show();
+        $nameField.after(nameBlankHelperText);
         $nameField.toggleClass('input-border-red');
     } else {
         //To set it back to hide after it's been shown (if they fixed an error)
-        $nameBlankHelperText.hide();
+        $nameField.remove(nameBlankHelperText);
         $nameField.toggleClass('input-border-red');
     }
 
     //If email field is blank prevent submit and show helper text.
     if (isValidEmailBlank($emailField.val())) {
         event.preventDefault();
-        $emailBlankHelperText.show();
+        $emailField.after(emailBlankHelperText);
         $emailField.toggleClass('input-border-red');
     } else {
-        $emailBlankHelperText.hide();
+        $emailField.remove(emailBlankHelperText);
         $emailField.toggleClass('input-border-red');
     }
 
     //If email field is not the correct format prevent submit and show helper text.
     //I had to change this field to just a reguler input field because the browser was doing this validation for me.
     if (isValidEmail($emailField.val())) {
-        $emailHelperText.hide();
+        $emailField.remove(emailHelperText);
         $emailField.toggleClass('input-border-red');
     } else {
         event.preventDefault();
-        $emailHelperText.show();
+        $emailField.after(emailHelperText);
         $emailField.toggleClass('input-border-red');
     }
 
     //If no activities are checked off prevent submit and show helper text.
     if (isValidOneCheckbox($checkboxesActivities)) {
-        $oneActivtyHelperText.hide();
+        $activitiesSection.remove(oneActivtyHelperText);
     } else {
         event.preventDefault();
-        $oneActivtyHelperText.show();
+        $activitiesSection.append(oneActivtyHelperText);
     }
 
     //If Credit Card is selected in payment - validate these.
@@ -283,31 +281,31 @@ $form.on('submit', (event) => {
         //Require these
         //Credit Card format between 13 and 16 digits. If it doesn't match prevent submit and show helper text.
         if (isValidCreditCardNumber($creditCardNumberField.val())) {
-            $ccNumberHelperText.hide();
+            $creditCardNumberField.remove(ccNumberHelperText);
             $creditCardNumberField.toggleClass('input-border-red');
         } else {
             event.preventDefault();
-            $ccNumberHelperText.show();
+            $creditCardNumberField.after(ccNumberHelperText);
             $creditCardNumberField.toggleClass('input-border-red');
         }
 
         //Zipcode for CC needs to be 5 digits. If it isn't prevent submit and show helper text.
         if (isValidCCZipcode($creditCardZipCodeField.val())) {
-            $ccZipcodeHelperText.hide();
+            $creditCardZipCodeField.remove(ccZipcodeHelperText);
             $creditCardZipCodeField.toggleClass('input-border-red');
         } else {
             event.preventDefault();
-            $ccZipcodeHelperText.show();
+            $creditCardZipCodeField.after(ccZipcodeHelperText);
             $creditCardZipCodeField.toggleClass('input-border-red');
         }
 
         //CVV must be 3 digits. If not then prevent submit and show helper text.
         if (isValidCvv($creditCardCvvField.val())) {
-            $ccCvvHelperText.hide();
+            $creditCardCvvField.remove(ccCvvHelperText);
             $creditCardCvvField.toggleClass('input-border-red');
         } else {
             event.preventDefault();
-            $ccCvvHelperText.show();
+            $creditCardCvvField.after(ccCvvHelperText);
             $creditCardCvvField.toggleClass('input-border-red');
         }
     }

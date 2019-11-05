@@ -21,12 +21,9 @@
         
         <label for="name">Name:</label>
         <input type="text" id="name" name="user-name">
-        <span class="helperText" id="name-blank-helpertext">Name field cannot be blank.</span>
         
         <label for="mail">Email:</label>
         <input type="text" id="mail" name="user-email">
-        <span class="helperText" id="email-format-helpertext">Email field must be in valid email format. Example: "name@email.com"</span>
-        <span class="helperText" id="email-not-blank">Email field cannot be blank.</span>
 
         <label for="title">Job Role</label>
         <select id="title" name="user-title">
@@ -65,7 +62,6 @@
         <div id="colors-js-puns" class="">
           <label for="color">Color:</label>
           <select id="color">
-            <option value="selectacolor">Select a Color</option>
             <option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option>
             <option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option> 
             <option value="gold">Gold (JS Puns shirt only)</option> 
@@ -78,7 +74,6 @@
 
       <fieldset class="activities">
         <legend>Register for Activities</legend>
-        <span class="helperText" id="one-activity-helpertext">You must select at least one activity.</span>
         <label>
           <input type="checkbox" name="all" data-cost="$200"> Main Conference — $200
         </label>
@@ -124,19 +119,16 @@
           <div class="col-6 col">
             <label for="cc-num">Card Number:</label>
             <input id="cc-num" name="user-cc-num" type="text">
-            <span class="helperText" id="ccnumber-helpertext">Credit Card Number must be between 13 and 16 numbers.</span>
           </div>
 
           <div class="col-3 col">
             <label for="zip">Zip Code:</label>
             <input id="zip" name="user-zip" type="text">
-            <span class="helperText" id="zipcode-helpertext">Zipcode must be 5 numbers.</span> 
           </div>
 
           <div class="col-3 col">
             <label for="cvv">CVV:</label>
             <input id="cvv" name="user-cvv" type="text"> 
-            <span class="helperText" id="cvv-helpertext">CVV must be 3 numbers.</span>
           </div>
 
           <label for="exp-month">Expiration Date:</label>
