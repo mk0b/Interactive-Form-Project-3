@@ -31,12 +31,12 @@ const ccZipcodeHelperText = '<span class="helperText" id="zipcode-helpertext">Zi
 const ccCvvHelperText = '<span class="helperText" id="cvv-helpertext">CVV must be 3 numbers.</span>';
 let totalCost = 0;
 const totalCostDiv = document.createElement('div');
-
-//create them like 25 then append/remove right in the error messaging I have set-up. Remove all the old.
-
+const emailHelperRealTimeSpan = document.createElement('span');
 
 //Adding some color and bold to the totalCostDiv
 $(totalCostDiv).addClass('total-cost');
+//Adding a class to my special email real time helper text
+$(emailHelperRealTimeSpan).addClass('helperText');
 
 /* This sets the curser to the first input on page load. Chose to use window.onload 
 for better browser compatability. */
@@ -223,19 +223,19 @@ $paymentDropDown.change( (event) => {
 });
 
 //Real time listener for email field not being correct email format.
-//TODO: figure out how to fix this.
 $emailField.on('input', (event) => {
     const text = event.target.value;
     if (isValidEmail(text)) {
-        $emailField.remove(emailHelperText);
+        $emailField.remove($(emailHelperRealTimeSpan).text(''));
     } else {
-        $emailField.after(emailHelperText);
+        $emailField.after($(emailHelperRealTimeSpan).text('Email field must be in valid email format. Example: "name@email.com"'));
     }
 });
 
+let errorCount = 0
 //Submit event handler if statements for validation messages.
 $form.on('submit', (event) => {
-
+    
     //If name field is blank prevent submit and show helper text.
     if (isValidNameBlank($nameField.val())) {
         event.preventDefault();
@@ -310,3 +310,4 @@ $form.on('submit', (event) => {
         }
     }
 });
+
