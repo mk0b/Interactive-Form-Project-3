@@ -2,16 +2,6 @@
 Megan Katherine O'Brien's List Pagination and Filtering Project 3 
 as a TeamTreehouse Full Stack JavaScript Talent Path student.*/
 
-//TODO: Delete below when done.
-// Project 3 Guide - https://drive.google.com/file/d/1Vw658-9KUiUZ5yHaABvkytC9W2QBYiW_/view?usp=sharing
-
-//TODO: Use the CDN way of getting the jquery.
-//TODO: Fill out the read me.
-//TODO: Clean up comments
-//TODO: Refactor Code
-//TODO: css/reset.css or css/normalize.css - Google and add to project (Opt)
-//TODO: Add placeholder text to make more usable?
-//TODO: Play with CSS.
 
 //Declaring some global variables
 //Choosing to store these to make the code more readable.
@@ -24,6 +14,7 @@ const $tShirtDesignDropdown = $('#design');
 const $activitiesSection = $('.activities');
 const $checkboxesActivities = $('.activities input');
 const $paymentDropDown = $('#payment');
+const $creditCardOption = $('#payment option[value="Credit Card"]').text();
 const $creditCardSection = $('#credit-card');
 const $creditCardNumberField = $('#cc-num');
 const $creditCardZipCodeField = $('#zip');
@@ -44,9 +35,8 @@ const totalCostDiv = document.createElement('div');
 //Adding some color and bold to the totalCostDiv
 $(totalCostDiv).addClass('total-cost');
 
-console.log('Type of $nameField: ' +  typeof $nameField.val());
-
-//This sets the curser to the first input on page load. Chose to use window.onload for better browser compatability.
+/* This sets the curser to the first input on page load. Chose to use window.onload 
+for better browser compatability. */
 window.onload = () => {
     $nameField.focus();
 }
@@ -70,12 +60,11 @@ $('#payment option[value="Credit Card"]').prop('selected', true);
 //Disabling "Select payment Method" in the payment info dropdown so they can't choose it from the list.
 $('#payment option[value="select method"]').prop('disabled', true);
 
-//Note: Added this code to the html file: <input type="text" id="other-title" name="user_other_jobtitle" placeholder="Your Job Role"></input>
-//so that it still shows up when javascript is turned off in the browser.
+/*Note: Added this code to the html file: <input type="text" id="other-title" name="user_other_jobtitle" placeholder="Your Job Role"></input>
+so that it still shows up when javascript is turned off in the browser. */
 
 //Validation Functions//
 
-//Validating the name field function.
 function isValidNameBlank(nameField){
     if (nameField === '') {
         return true;
@@ -106,9 +95,6 @@ function isValidOneCheckbox(checkboxes) {
     }
 }
 
-//TODO: Remove test after.
-console.log(isValidOneCheckbox($checkboxesActivities));
-
 function isValidCreditCardNumber(ccField) {
 //only if credit card payment option is selected.
 return  /\d{13,16}/.test(ccField);
@@ -122,32 +108,21 @@ function isValidCvv(cvvField) {
     return /\d{3}/.test(cvvField);
 }
 
-//TODO: took out helper functions. Not sure if I am going to put back in.
-
 
 //Event Handlers//
 
 //This event handler shows the Other Job Role text field when the "other" option is selected.
 $jobRoleSection.change( () => {
     const option = $jobRoleSection.find(':selected').text();
-    //TODO: Remove test when done.
-    console.log(option);
     if (option === 'Other') {
         $otherJobSection.show();
-    } else {
-        //TODO: Remove console and else statement when done.
-        console.log('Something was selected!');
     }
 });
 
 //This event handler finds the option that is being clicked in the list and then dictates what colors are shown in the color dropdown.
-// TODO: decide to leave in or take out. added <option value="selectacolor">Select a Color</option> may take it out when I fix the bug
-//TODO: fix the bug when you select one theme and then try to change your mind and select another the list does not show up correctly.
 $tShirtDesignDropdown.change( () => {
     //Grabbing the selected option and storing it to use in the conditional statements.
     const option = $tShirtDesignDropdown.find(':selected').text();
-    //TODO: Remove when done.
-    console.log(option);
     //Declaring some color variables.
     const $colorTomato = $('#color option[value="tomato"]');
     const $colorSteelBlue = $('#color option[value="steelblue"]');
@@ -172,8 +147,6 @@ $tShirtDesignDropdown.change( () => {
         $colorGold.attr('hidden', false).attr('disabled', false);
         $colorOptions.show();
     } else if (option === 'Theme - I ♥ JS') {
-        //TODO: Remove test.
-        console.log('Test');
         $firstSelect.prop('selected', true);
         //Disable colors that should not be in the list for this theme.
         $colorCornflowerBlue.attr('hidden', true).attr('disabled', true);
@@ -187,31 +160,17 @@ $tShirtDesignDropdown.change( () => {
     }
 });
 
-//This event handler doesn't allow events of the same day and time to be selected. 
-//Disable the same events and time after one is selected so that the user cannot
-//double book themselves.
-//As a user selects make a running total of the dollar amounts and then display it 
-//below the list of checkboxes.
+/*This event handler doesn't allow events of the same day and time to be selected. 
+As a user selects activites it makes a running total of the dollar amounts and then display it 
+below the list of checkboxes.*/
 
 $activitiesSection.change( (event) => {
     //When clicked store what was clicked -- get data day and time -- get cost
     const clicked = event.target;
-    //TODO: Remove test after.
-    console.log(clicked);
     const $clickedTime = $(clicked).attr("data-day-and-time");
-    //TODO: Remove test after.
-    console.log($clickedTime);
     const $clickedCost = parseInt($(clicked).attr("data-cost").replace("$", ""));
-    //TODO: Remove test after.
-    console.log(typeof $clickedCost);
-    
-    //Appending the Total Cost Div to the bottom of the activities section.
-    
-    //Use the checkboxes to loop through each check box and if it matches clickedtime grey it out.
 
-    //TODO: Remove test after.
-    console.log($checkboxesActivities);
-
+    //If an activity is checked/unchecked add/subtract from totalCost and append the total cost div.
     if (clicked.checked) {
         totalCost += $clickedCost;
         $activitiesSection.append($(totalCostDiv).text('Total Cost: $' + totalCost));
@@ -219,45 +178,30 @@ $activitiesSection.change( (event) => {
         totalCost -= $clickedCost;
         $activitiesSection.append($(totalCostDiv).text('Total Cost: $' + totalCost));
     }
-    //What if I put this and the variable outside of this event listener and append it after the event listener?
-    //('Total Cost: $' + totalCost);
 
-    // if what is checked is a specific date and time loop through and if date and time match others disable them.
+    //If what is checked is a specific date and time loop through and if date and time match others disable them.
     for (let i = 0; i < $checkboxesActivities.length; i++) {
         const currentCheckbox = $checkboxesActivities[i];
         const currentCheckboxDayTime = $(currentCheckbox).attr("data-day-and-time");
-        //TODO: Remove test after.
-        //console.log(currentCheckbox);
-        //console.log(currentCheckboxDayTime);
         if (currentCheckboxDayTime === $clickedTime && currentCheckbox !== clicked) {
             if (clicked.checked) {
-                //if clicked was checked set the matching activities elements to disabled true 
+                //If clicked was checked set the matching activities elements to disabled true 
                 $(currentCheckbox).prop('disabled', true);
-                console.log(currentCheckbox);
             } else {
-                //set the matching disabled property to disabled false
+                //Set the matching disabled property to disabled false
                 $(currentCheckbox).prop('disabled', false);
             }
         }
     }
-    //TODO: Remove test after.
-    //console.log('Hi');
 });
-
-
 
 //Show corresponding payment sections when they are chosen and hide cc info section.
 $paymentDropDown.change( (event) => {
     const option = event.target;
     const $optionValue = $(option).prop("value");
-    //TODO: Remove test after.
-    console.log('Option: ' + option);
-    console.log('Option Value: ' + typeof $optionValue);
 
-    //declaring payment option variables for if statements.
+    //Declaring payment option variables for if statements.
     const $paypalOption = $('#payment option[value="PayPal"]').text();
-    //TODO: Remove test after.
-    console.log(typeof $paypalOption);
     const $bitcoinOption = $('#payment option[value="Bitcoin"]').text();
     const $creditCardOption = $('#payment option[value="Credit Card"]').text();
     
@@ -292,7 +236,6 @@ $emailField.on('input', (event) => {
 });
 
 //Submit event handler if statements for validation messages.
-
 $form.on('submit', (event) => {
 
     //If name field is blank prevent submit and show helper text.
@@ -300,89 +243,62 @@ $form.on('submit', (event) => {
         event.preventDefault();
         $nameBlankHelperText.show();
         $nameField.toggleClass('input-border-red');
-        //TODO: Remove test after.
-        console.log($nameField.val());
-        //TODO: figure out how to scroll to the field
     } else {
-        //to set it back to hide after it's been shown (if they fixed an error)
+        //To set it back to hide after it's been shown (if they fixed an error)
         $nameBlankHelperText.hide();
         $nameField.toggleClass('input-border-red');
-        //TODO: Remove test after.
-        console.log($nameField.val());
     }
 
-    //if email field is blank prevent submit and show helper text.
+    //If email field is blank prevent submit and show helper text.
     if (isValidEmailBlank($emailField.val())) {
         event.preventDefault();
         $emailBlankHelperText.show();
         $emailField.toggleClass('input-border-red');
-        //TODO: Remove test after.
-        console.log($emailField.val());
     } else {
         $emailBlankHelperText.hide();
         $emailField.toggleClass('input-border-red');
-        //TODO: Remove test after.
-        console.log($emailField.val());
     }
 
-    //if email field is not the correct format prevent submit and show helper text.
+    //If email field is not the correct format prevent submit and show helper text.
     //I had to change this field to just a reguler input field because the browser was doing this validation for me.
     if (isValidEmail($emailField.val())) {
         $emailHelperText.hide();
         $emailField.toggleClass('input-border-red');
-        //TODO: Remove test after.
-        //console.log('True ' + $emailField.val());
-        //console.log(isValidEmail($emailField.val()));
     } else {
         event.preventDefault();
         $emailHelperText.show();
         $emailField.toggleClass('input-border-red');
-        //TODO: Remove test after.
-        //console.log('Else ' + $emailField.val());
-        //console.log(isValidEmail($emailField.val()));
     }
 
-    //if no activities are checked off prevent submit and show helper text.
+    //If no activities are checked off prevent submit and show helper text.
     if (isValidOneCheckbox($checkboxesActivities)) {
         $oneActivtyHelperText.hide();
-        //TODO: Remove test after.
-        //console.log('True ' + isValidOneCheckbox($checkboxesActivities));
     } else {
         event.preventDefault();
         $oneActivtyHelperText.show();
-        //TODO: Remove test after.
-        //console.log('False ' + isValidOneCheckbox($checkboxesActivities));
     }
 
-    //if Credit Card is selected in payment - validate these
-    console.log($paymentDropDown.val());
-    const $creditCardOption = $('#payment option[value="Credit Card"]').text();
+    //If Credit Card is selected in payment - validate these.
     if ($paymentDropDown.val() === $creditCardOption) {
-        //require these
-        console.log('true cc is selected');
-        
+        //Require these
         //Credit Card format between 13 and 16 digits. If it doesn't match prevent submit and show helper text.
         if (isValidCreditCardNumber($creditCardNumberField.val())) {
             $ccNumberHelperText.hide();
             $creditCardNumberField.toggleClass('input-border-red');
-            console.log(isValidCreditCardNumber($creditCardNumberField.val()));
         } else {
             event.preventDefault();
             $ccNumberHelperText.show();
             $creditCardNumberField.toggleClass('input-border-red');
-            console.log(isValidCreditCardNumber($creditCardNumberField.val()));
         }
 
         //Zipcode for CC needs to be 5 digits. If it isn't prevent submit and show helper text.
         if (isValidCCZipcode($creditCardZipCodeField.val())) {
             $ccZipcodeHelperText.hide();
             $creditCardZipCodeField.toggleClass('input-border-red');
-            console.log(isValidCCZipcode($creditCardZipCodeField.val()));
         } else {
             event.preventDefault();
             $ccZipcodeHelperText.show();
             $creditCardZipCodeField.toggleClass('input-border-red');
-            console.log(isValidCCZipcode($creditCardZipCodeField.val()));
         }
 
         //CVV must be 3 digits. If not then prevent submit and show helper text.
@@ -395,5 +311,4 @@ $form.on('submit', (event) => {
             $creditCardCvvField.toggleClass('input-border-red');
         }
     }
-
 });
