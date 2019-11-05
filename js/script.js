@@ -22,6 +22,7 @@ const $creditCardCvvField = $('#cvv');
 const $paypalSection = $('#paypal');
 const $bitcoinSection = $('#bitcoin');
 const $form = $('form');
+//TODO: Delete these
 const nameBlankHelperText = '<span class="helperText" id="name-blank-helpertext">Name field cannot be blank.</span>';
 const emailBlankHelperText = '<br><span class="helperText" id="email-not-blank">Email field cannot be blank.</span>';
 const emailHelperText = '<br><span class="helperText" id="email-format-helpertext">Email field must be in valid email format. Example: "name@email.com"</span>'; 
@@ -29,14 +30,32 @@ const oneActivtyHelperText = '<span class="helperText" id="one-activity-helperte
 const ccNumberHelperText = '<span class="helperText" id="ccnumber-helpertext">Credit Card Number must be between 13 and 16 numbers.</span>';
 const ccZipcodeHelperText = '<span class="helperText" id="zipcode-helpertext">Zipcode must be 5 numbers.</span>';
 const ccCvvHelperText = '<span class="helperText" id="cvv-helpertext">CVV must be 3 numbers.</span>';
+//
+
+//TODO: Refactor to more easily create these elements?
 let totalCost = 0;
 const totalCostDiv = document.createElement('div');
-const emailHelperRealTimeSpan = document.createElement('span');
 
-//Adding some color and bold to the totalCostDiv
+const emailHelperRealTimeSpan = document.createElement('span');
+const helperSpanName = document.createElement('span');
+const helperSpanEmailBlank = document.createElement('span');
+const helperSpanEmailFormat = document.createElement('span');
+const helperSpanOneActivity = document.createElement('span');
+const helperSpanCCNumber = document.createElement('span');
+const helperSpanCCZipCode = document.createElement('span');
+const helperSpanCCcvv = document.createElement('span');
+
+
+//Adding classes to the new dom elements.
 $(totalCostDiv).addClass('total-cost');
-//Adding a class to my special email real time helper text
 $(emailHelperRealTimeSpan).addClass('helperText');
+$(helperSpanName).addClass('helperText');
+$(helperSpanEmailBlank).addClass('helperText');
+$(helperSpanEmailFormat).addClass('helperText');
+$(helperSpanOneActivity).addClass('helperText');
+$(helperSpanCCNumber).addClass('helperText');
+$(helperSpanCCZipCode).addClass('helperText');
+$(helperSpanCCcvv).addClass('helperText');
 
 /* This sets the curser to the first input on page load. Chose to use window.onload 
 for better browser compatability. */
@@ -130,9 +149,6 @@ $tShirtDesignDropdown.change( () => {
     const $secondSelect = $('#color option[value="tomato"]');
     
     if (option === 'Theme - JS Puns') {
-        //trying to empty and reload or refresh the design dropdown
-        //doesn't seem to work either.trigger('chosen:updated');
-        // basically gives an error saying it's not allowed $colorOptions.empty().load(location.href + '#colors-js-puns > *');
         $firstSelect.prop('selected', true);
         //Disable colors that should not be in the list for this theme.
         $colorTomato.attr('hidden', true).attr('disabled', true);
@@ -226,54 +242,57 @@ $paymentDropDown.change( (event) => {
 $emailField.on('input', (event) => {
     const text = event.target.value;
     if (isValidEmail(text)) {
-        $emailField.remove($(emailHelperRealTimeSpan).text(''));
+        $emailField.after($(emailHelperRealTimeSpan).text(''));
+
     } else {
         $emailField.after($(emailHelperRealTimeSpan).text('Email field must be in valid email format. Example: "name@email.com"'));
+        $emailField.after($(helperSpanEmailBlank).text(''));
+        $emailField.after($(helperSpanEmailFormat).text(''));
     }
 });
 
-let errorCount = 0
+//TODO: I think I have to do them all like I did the event listener real time. 
+//TODO: Fix the class. Toggle wont work in some cases : (
 //Submit event handler if statements for validation messages.
 $form.on('submit', (event) => {
     
     //If name field is blank prevent submit and show helper text.
     if (isValidNameBlank($nameField.val())) {
         event.preventDefault();
-        $nameField.after(nameBlankHelperText);
-        $nameField.toggleClass('input-border-red');
+        $nameField.after($(helperSpanName).text('Name field cannot be blank.'));
+        $nameField.addClass('input-border-red');
     } else {
         //To set it back to hide after it's been shown (if they fixed an error)
-        $nameField.remove(nameBlankHelperText);
-        $nameField.toggleClass('input-border-red');
+        $nameField.after($(helperSpanName).text(''));
+        $nameField.removeClass('input-border-red');
     }
 
-    //If email field is blank prevent submit and show helper text.
+    //if submit is hit and email field is blank -- > only display email field cannot be blank
+    //if submit is hit and email field is not blank and doesn't match validation --> only dispaly email field needs to be correct format
+    //else remove helper text and red class
+
     if (isValidEmailBlank($emailField.val())) {
         event.preventDefault();
-        $emailField.after(emailBlankHelperText);
-        $emailField.toggleClass('input-border-red');
-    } else {
-        $emailField.remove(emailBlankHelperText);
-        $emailField.toggleClass('input-border-red');
-    }
-
-    //If email field is not the correct format prevent submit and show helper text.
-    //I had to change this field to just a reguler input field because the browser was doing this validation for me.
-    if (isValidEmail($emailField.val())) {
-        $emailField.remove(emailHelperText);
-        $emailField.toggleClass('input-border-red');
-    } else {
+        $emailField.after($(helperSpanEmailBlank).text('Email field cannot be blank.'));
+        $emailField.after($(emailHelperRealTimeSpan).text(''));
+        $emailField.addClass('input-border-red');
+    } else if (!isValidEmailBlank($emailField.val()) && !isValidEmail($emailField.val())) {
         event.preventDefault();
-        $emailField.after(emailHelperText);
-        $emailField.toggleClass('input-border-red');
+        $emailField.after($(helperSpanEmailFormat).text('Email field must be in valid email format. Example: "name@email.com'));
+        $emailField.after($(emailHelperRealTimeSpan).text(''));
+        $emailField.addClass('input-border-red');        
+    } else {
+        $emailField.after($(helperSpanEmailBlank).text(''));
+        $emailField.after($(helperSpanEmailFormat).text(''));
+        $emailField.removeClass('input-border-red');
     }
 
     //If no activities are checked off prevent submit and show helper text.
     if (isValidOneCheckbox($checkboxesActivities)) {
-        $activitiesSection.remove(oneActivtyHelperText);
+        $activitiesSection.append($(helperSpanOneActivity).text(''));
     } else {
         event.preventDefault();
-        $activitiesSection.append(oneActivtyHelperText);
+        $activitiesSection.append($(helperSpanOneActivity).text('You must select at least one activity.'));
     }
 
     //If Credit Card is selected in payment - validate these.
@@ -281,32 +300,32 @@ $form.on('submit', (event) => {
         //Require these
         //Credit Card format between 13 and 16 digits. If it doesn't match prevent submit and show helper text.
         if (isValidCreditCardNumber($creditCardNumberField.val())) {
-            $creditCardNumberField.remove(ccNumberHelperText);
-            $creditCardNumberField.toggleClass('input-border-red');
+            $creditCardNumberField.after($(helperSpanCCNumber).text(''));
+            $creditCardNumberField.removeClass('input-border-red');
         } else {
             event.preventDefault();
-            $creditCardNumberField.after(ccNumberHelperText);
-            $creditCardNumberField.toggleClass('input-border-red');
+            $creditCardNumberField.after($(helperSpanCCNumber).text('Credit Card number must be between 13 and 16 numbers.'));
+            $creditCardNumberField.addClass('input-border-red');
         }
 
         //Zipcode for CC needs to be 5 digits. If it isn't prevent submit and show helper text.
         if (isValidCCZipcode($creditCardZipCodeField.val())) {
-            $creditCardZipCodeField.remove(ccZipcodeHelperText);
-            $creditCardZipCodeField.toggleClass('input-border-red');
+            $creditCardZipCodeField.after($(helperSpanCCZipCode).text(''));
+            $creditCardZipCodeField.removeClass('input-border-red');
         } else {
             event.preventDefault();
-            $creditCardZipCodeField.after(ccZipcodeHelperText);
-            $creditCardZipCodeField.toggleClass('input-border-red');
+            $creditCardZipCodeField.after($(helperSpanCCZipCode).text('Zip Code must be 5 numbers.'));
+            $creditCardZipCodeField.addClass('input-border-red');
         }
 
         //CVV must be 3 digits. If not then prevent submit and show helper text.
         if (isValidCvv($creditCardCvvField.val())) {
-            $creditCardCvvField.remove(ccCvvHelperText);
-            $creditCardCvvField.toggleClass('input-border-red');
+            $creditCardCvvField.after($(helperSpanCCcvv).text(''));
+            $creditCardCvvField.removeClass('input-border-red');
         } else {
             event.preventDefault();
-            $creditCardCvvField.after(ccCvvHelperText);
-            $creditCardCvvField.toggleClass('input-border-red');
+            $creditCardCvvField.after($(helperSpanCCcvv).text('CVV must be 3 numbers.'));
+            $creditCardCvvField.addClass('input-border-red');
         }
     }
 });
