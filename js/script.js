@@ -100,15 +100,15 @@ function isValidOneCheckbox(checkboxes) {
 }
 
 function isValidCreditCardNumber(ccField) {
-return  /\d{13,16}/.test(ccField);
+return  /^\d{13,16}$/.test(ccField);
 }
 
 function isValidCCZipcode(zipCodeField) {
-    return /\d{5}/.test(zipCodeField);
+    return /^\d{5}$/.test(zipCodeField);
 }
 
 function isValidCvv(cvvField) {
-    return /\d{3}/.test(cvvField);
+    return /^\d{3}$/.test(cvvField);
 }
 
 
